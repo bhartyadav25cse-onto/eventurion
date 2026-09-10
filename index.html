@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eventurion | Interactive Historical Atlas of India</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%230e1117%22 stroke=%22%23c5a059%22 stroke-width=%225%22/><polygon points=%2250,15 60,45 50,50 40,45%22 fill=%22%23c5a059%22/><polygon points=%2250,85 60,55 50,50 40,55%22 fill=%22%2364748b%22/></svg>">
+</head>
+<body>
+
+  <!-- FIXED INTERACTIVE CELESTIAL BACKGROUND SHADER (ANIMATION 5) -->
+  <div class="fixed-bg-shader-container" aria-hidden="true">
+    <canvas id="shader-canvas-ANIMATION_5"></canvas>
+    <div class="shader-vignette-overlay"></div>
+  </div>
+
+  <!-- Floating Right-Side Slide Navigation Dots -->
+  <aside class="slide-nav-dots" id="slide-nav-dots" aria-label="Page Slide Navigation">
+    <div class="slide-dot active" data-target="section-home" data-label="Home">
+      <span class="dot-tooltip">Home</span>
+    </div>
+    <div class="slide-dot" data-target="section-map" data-label="Atlas Map">
+      <span class="dot-tooltip">Atlas Map</span>
+    </div>
+    <div class="slide-dot" data-target="section-timeline" data-label="Timeline">
+      <span class="dot-tooltip">Timeline</span>
+    </div>
+    <div class="slide-dot" data-target="section-civilizations" data-label="Civilizations">
+      <span class="dot-tooltip">Civilizations</span>
+    </div>
+    <div class="slide-dot" data-target="section-battles" data-label="Battles & Events">
+      <span class="dot-tooltip">Battles & Events</span>
+    </div>
+    <div class="slide-dot" data-target="section-reconstruction" data-label="AI Reconstruction">
+      <span class="dot-tooltip">AI Reconstruction</span>
+    </div>
+    <div class="slide-dot" data-target="section-archive" data-label="Historical Archive">
+      <span class="dot-tooltip">Historical Archive</span>
+    </div>
+    <div class="slide-dot" data-target="section-about" data-label="About">
+      <span class="dot-tooltip">About</span>
+    </div>
+  </aside>
+
+  <div class="app-container">
+    
+    <!-- =======================================================
+         TOP NAVIGATION BAR (SLIDE ANCHORS)
+         ======================================================= -->
+    <header class="top-navbar">
+      <div class="brand-logo" onclick="window.appRouter.scrollToSection('section-home')">
+        <div class="brand-star-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" fill="#0369a1" />
+            <polygon points="12,4 14.5,9.5 20,10 16,14 17.2,19.5 12,16.8 6.8,19.5 8,14 4,10 9.5,9.5" fill="#38bdf8" />
+          </svg>
+        </div>
+        <div class="brand-name">EVENT<span class="brand-accent-blue">URION</span></div>
+      </div>
+
+      <nav>
+        <ul class="nav-links">
+          <li><span class="nav-link active" data-nav="section-home">Home</span></li>
+          <li><span class="nav-link" data-nav="section-map">Explore Atlas</span></li>
+          <li><span class="nav-link" data-nav="section-timeline">Timeline</span></li>
+          <li><span class="nav-link" data-nav="section-civilizations">Civilizations</span></li>
+          <li><span class="nav-link" data-nav="section-battles">Battles & Turning Points</span></li>
+          <li><span class="nav-link" data-nav="section-reconstruction">AI Reconstruction</span></li>
+          <li><span class="nav-link" data-nav="section-archive">Historical Archive</span></li>
+          <li><span class="nav-link" data-nav="section-about">About</span></li>
+        </ul>
+      </nav>
+
+      <div class="nav-right-actions">
+        <button class="btn btn-search-archive" onclick="window.appRouter.scrollToSection('section-map')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          SEARCH ARCHIVE
+        </button>
+      </div>
+    </header>
+
+    <!-- =======================================================
+         SECTION 1: HERO LANDING SLIDE
+         ======================================================= -->
+    <section id="section-home" class="page-slide screen-home">
+      <div class="hero-content">
+        <h1 class="hero-headline">
+          Explore India
+          <span class="hero-accent-cyan">Through Time</span>
+        </h1>
+        <p class="hero-subtitle">
+          Discover 5,000 years of civilizations, empires, sovereign epics, and documented archives — from the Bronze Age Indus to Independence.
+        </p>
+
+        <div class="hero-cta-group">
+          <button class="btn btn-hero-primary" onclick="window.appRouter.scrollToSection('section-map')">
+            START EXPLORING ATLAS →
+          </button>
+          <button class="btn btn-hero-secondary" onclick="window.appRouter.scrollToSection('section-timeline')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            VIEW TIMELINE
+          </button>
+        </div>
+      </div>
+
+      <!-- Reference Epoch Chronology Box at the Bottom -->
+      <div class="hero-bottom-timeline">
+        <div class="hero-timeline-header">
+          <span class="ht-label">EPOCH CHRONOLOGY OF BHARATAVARSHA</span>
+          <span class="ht-range">Select an era to enter the atlas</span>
+        </div>
+        <div class="hero-timeline-track">
+          <div class="hero-era-chip" onclick="window.appRouter.jumpToMapEra(-2400, 'indus_valley')">
+            <span class="chip-year">3300 – 1500 BCE</span>
+            <span class="chip-name">INDUS VALLEY</span>
+          </div>
+          <div class="hero-era-chip active" onclick="window.appRouter.jumpToMapEra(-261, 'maurya')">
+            <span class="chip-year">322 – 185 BCE</span>
+            <span class="chip-name">MAURYA EMPIRE</span>
+          </div>
+          <div class="hero-era-chip" onclick="window.appRouter.jumpToMapEra(400, 'gupta')">
+            <span class="chip-year">319 – 543 CE</span>
+            <span class="chip-name">GUPTA GOLDEN AGE</span>
+          </div>
+          <div class="hero-era-chip" onclick="window.appRouter.jumpToMapEra(1025, 'chola')">
+            <span class="chip-year">848 – 1279 CE</span>
+            <span class="chip-name">IMPERIAL CHOLAS</span>
+          </div>
+          <div class="hero-era-chip" onclick="window.appRouter.jumpToMapEra(1520, 'vijayanagara')">
+            <span class="chip-year">1336 – 1646 CE</span>
+            <span class="chip-name">VIJAYANAGARA</span>
+          </div>
+          <div class="hero-era-chip" onclick="window.appRouter.jumpToMapEra(1674, 'maratha')">
+            <span class="chip-year">1674 – 1818 CE</span>
+            <span class="chip-name">MARATHA SWARAJYA</span>
+          </div>
+          <div class="hero-era-chip" onclick="window.appRouter.jumpToMapEra(1857, 'freedom_movement')">
+            <span class="chip-year">1857 – 1947 CE</span>
+            <span class="chip-name">FREEDOM STRUGGLE</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Divider -->
+    <div class="slide-section-divider">
+      <span class="divider-line"></span>
+      <span class="divider-glyph">❖</span>
+      <span class="divider-line"></span>
+    </div>
+
+    <!-- =======================================================
+         SECTION 2: INTERACTIVE ATLAS MAP SLIDE
+         ======================================================= -->
+    <section id="section-map" class="page-slide screen-map">
+      
+      <!-- Left Sidebar: Explore Asia & India -->
+      <aside class="map-sidebar-left">
+        <div class="sidebar-header">
+          <h2 class="sidebar-title">Explore Indian History</h2>
+          <span class="sidebar-counter">16 Sovereign Eras • 48 Epigraphs • 24 Historic Sites</span>
+        </div>
+
+        <div class="sidebar-search-box">
+          <div class="search-input-wrap">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" id="map-search-input" class="search-input" placeholder="Search dynasties, rulers, battles, inscriptions..." />
+          </div>
+        </div>
+
+        <div class="sidebar-filters-wrap">
+          <div class="filter-pills-row">
+            <button class="map-filter-pill active" data-filter="all">All</button>
+            <button class="map-filter-pill" data-filter="civilization">Civilization</button>
+            <button class="map-filter-pill" data-filter="empire">Empire</button>
+            <button class="map-filter-pill" data-filter="event">Battles/Events</button>
+          </div>
+
+          <select id="map-era-select" class="era-select-dropdown">
+            <option value="all">All Epochs (3300 BCE – 1947 CE)</option>
+            <option value="bronze">Indus & Bronze Age (3300–1500 BCE)</option>
+            <option value="vedic">Vedic & Mahajanapadas (1500–345 BCE)</option>
+            <option value="antiquity" selected>Mauryan & Classical Antiquity (345 BCE–300 CE)</option>
+            <option value="golden">Gupta Golden Age (300–650 CE)</option>
+            <option value="medieval">Medieval Dynasties (650–1206 CE)</option>
+            <option value="vijayanagara">Vijayanagara & Sultanates (1206–1526 CE)</option>
+            <option value="early_modern">Mughal, Maratha & Rajput Apex (1526–1818 CE)</option>
+            <option value="freedom">Sikh Empire & Freedom Movement (1818–1947 CE)</option>
+          </select>
+        </div>
+
+        <div class="sidebar-results-list" id="map-search-results">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </aside>
+
+      <!-- Center Large Interactive Vector Map of India -->
+      <div class="map-canvas-center">
+        <div id="asia-map-container" class="map-viewport">
+          <!-- Rendered by AsiaMapEngine -->
+        </div>
+
+        <!-- Bottom Horizontal Historical Timeline from 3300 BCE to 1950 CE -->
+        <div class="map-bottom-scrubber">
+          <button class="timeline-play-btn" id="map-timeline-play">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Play History
+          </button>
+
+          <div class="timeline-scrubber-body">
+            <div class="scrubber-readout-row">
+              <span class="scrubber-year-title" id="map-year-display">261 BCE</span>
+              <span class="scrubber-era-tag" id="map-era-tag">Antiquity (Mauryan Era)</span>
+            </div>
+            
+            <div class="slider-track-wrap">
+              <input type="range" id="map-year-slider" class="history-slider" min="-3300" max="1950" step="5" value="-261">
+              <div class="slider-tick-labels">
+                <span>3300 BCE</span>
+                <span>2400 BCE</span>
+                <span>1500 BCE</span>
+                <span>600 BCE</span>
+                <span>300 BCE</span>
+                <span>0</span>
+                <span>500 CE</span>
+                <span>1000 CE</span>
+                <span>1300 CE</span>
+                <span>1526 CE</span>
+                <span>1750 CE</span>
+                <span>1947 CE</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Sidebar: Currently Selected Civilization Panel -->
+      <aside class="map-sidebar-right" id="map-selected-civ-panel">
+        <div class="panel-header-badge">
+          <span class="badge gold">Selected Civilization</span>
+          <span class="badge-accent" id="panel-civ-region">Pan-Indian Subcontinent</span>
+        </div>
+
+        <h2 class="panel-title" id="panel-civ-title">Maurya Empire</h2>
+        <div class="panel-native-name" id="panel-civ-native">मौर्य साम्राज्य</div>
+
+        <!-- Dynamic Photo Preview Container -->
+        <div id="panel-civ-photo-wrap" class="panel-civ-photo-wrap"></div>
+
+        <div class="panel-stat-grid">
+          <div class="panel-stat-box">
+            <span class="stat-label">Existence</span>
+            <span class="stat-val" id="panel-civ-period">322 BCE – 185 BCE</span>
+          </div>
+          <div class="panel-stat-box">
+            <span class="stat-label">Imperial Capital</span>
+            <span class="stat-val" id="panel-civ-capital">Pataliputra (Patna)</span>
+          </div>
+          <div class="panel-stat-box">
+            <span class="stat-label">Peak Territorial Extent</span>
+            <span class="stat-val" id="panel-civ-area">5,000,000 km²</span>
+          </div>
+          <div class="panel-stat-box">
+            <span class="stat-label">Primary Epigraph</span>
+            <span class="stat-val">Ashokan Rock Edicts</span>
+          </div>
+        </div>
+
+        <p class="panel-desc" id="panel-civ-desc">
+          Founded by Chandragupta Maurya and Chanakya, reaching its ethical and architectural zenith under Emperor Ashoka the Great.
+        </p>
+
+        <div class="panel-action-stack">
+          <button class="btn btn-primary gold-glow w-full" id="btn-map-explore-civ">
+            Slide to Full Civilization Profile
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+          </button>
+          <button class="btn btn-outline w-full" id="btn-map-recon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            Slide to AI Reconstruction
+          </button>
+        </div>
+      </aside>
+
+    </section>
+
+    <!-- Section Divider -->
+    <div class="slide-section-divider">
+      <span class="divider-line"></span>
+      <span class="divider-glyph">❖</span>
+      <span class="divider-line"></span>
+    </div>
+
+    <!-- =======================================================
+         SECTION 3: INTERACTIVE TIMELINE SLIDE
+         ======================================================= -->
+    <section id="section-timeline" class="page-slide screen-timeline">
+      <div id="timeline-container">
+        <!-- Rendered by TimelineEngine -->
+      </div>
+    </section>
+
+    <!-- Section Divider -->
+    <div class="slide-section-divider">
+      <span class="divider-line"></span>
+      <span class="divider-glyph">❖</span>
+      <span class="divider-line"></span>
+    </div>
+
+    <!-- =======================================================
+         SECTION 4: CIVILIZATIONS & DYNASTIES DIRECTORY & PROFILE SLIDE
+         ======================================================= -->
+    <section id="section-civilizations" class="page-slide screen-profile">
+      
+      <!-- Civilization Fast-Picker Bar -->
+      <div class="civ-quick-picker-bar">
+        <span class="picker-label">Select Civilization:</span>
+        <div class="civ-chips-scroller" id="civ-chips-scroller">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <div id="civ-profile-content">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </section>
+
+    <!-- Section Divider -->
+    <div class="slide-section-divider">
+      <span class="divider-line"></span>
+      <span class="divider-glyph">❖</span>
+      <span class="divider-line"></span>
+    </div>
+
+    <!-- =======================================================
+         SECTION 5: HISTORICAL BATTLES & TURNING POINTS SLIDE
+         ======================================================= -->
+    <section id="section-battles" class="page-slide screen-event">
+      
+      <!-- Battle Fast-Picker Bar -->
+      <div class="civ-quick-picker-bar">
+        <span class="picker-label">Select Historical Battle / Turning Point:</span>
+        <div class="civ-chips-scroller" id="event-chips-scroller">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <div id="event-detail-content">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </section>
+
+    <!-- Section Divider -->
+    <div class="slide-section-divider">
+      <span class="divider-line"></span>
+      <span class="divider-glyph">❖</span>
+      <span class="divider-line"></span>
+    </div>
+
+    <!-- =======================================================
+         SECTION 6: AI HISTORICAL RECONSTRUCTION STUDIO SLIDE
+         ======================================================= -->
+    <section id="section-reconstruction" class="page-slide screen-reconstruction">
+      <div class="recon-header-bar">
+        <div>
+          <h1 class="recon-title">AI Archaeological Reconstruction Studio</h1>
+          <p class="recon-subtitle">Synthesizing prehistoric cities, stone citadels, and imperial temples from Archaeological Survey of India (ASI) excavation papers.</p>
+        </div>
+
+        <div class="recon-meta-chips">
+          <div class="recon-chip"><span class="recon-chip-k">Location:</span> <span class="recon-chip-v" id="recon-meta-location">Pataliputra</span></div>
+          <div class="recon-chip"><span class="recon-chip-k">Chronology:</span> <span class="recon-chip-v" id="recon-meta-period">c. 250 BCE</span></div>
+          <div class="recon-chip"><span class="recon-chip-k">Civilization:</span> <span class="recon-chip-v" id="recon-meta-civ">Maurya Empire</span></div>
+        </div>
+      </div>
+
+      <!-- Quick Site Selector Tabs -->
+      <div style="display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;">
+        <button class="map-filter-pill recon-site-chip active" data-site="pataliputra">Pataliputra (Maurya 250 BCE)</button>
+        <button class="map-filter-pill recon-site-chip" data-site="dholavira">Dholavira (Indus 2400 BCE)</button>
+        <button class="map-filter-pill recon-site-chip" data-site="hampi">Hampi (Vijayanagara 1520 CE)</button>
+        <button class="map-filter-pill recon-site-chip" data-site="nalanda">Nalanda (Gupta 500 CE)</button>
+        <button class="map-filter-pill recon-site-chip" data-site="thanjavur">Thanjavur (Chola 1010 CE)</button>
+        <button class="map-filter-pill recon-site-chip" data-site="raigad">Raigad (Maratha 1674 CE)</button>
+      </div>
+
+      <div class="recon-studio-card">
+        <div class="recon-canvas-wrapper" id="recon-container">
+          <canvas id="recon-canvas"></canvas>
+
+          <div class="recon-top-hud">
+            <div class="recon-ai-badge">
+              <span class="observer-pulse-dot"></span>
+              Neural Archeo-Synthesis Active
+            </div>
+            <div class="recon-telemetry-badge">
+              ASI EXCAVATION GRID: MONITORED • RESOLUTION: 4K PROCEDURAL
+            </div>
+          </div>
+        </div>
+
+        <div class="recon-controls-bar">
+          <div class="recon-layers-group">
+            <span class="recon-ctrl-label">Strata Layers:</span>
+            <button class="recon-layer-toggle active" data-layer="arch">Architecture</button>
+            <button class="recon-layer-toggle active" data-layer="env">Environment</button>
+            <button class="recon-layer-toggle active" data-layer="people">People</button>
+            <button class="recon-layer-toggle active" data-layer="trade">Trade</button>
+          </div>
+
+          <div class="recon-actions-group">
+            <select id="recon-tod-select" class="era-select-dropdown" style="width: 140px;">
+              <option value="sunset" selected>Sunset Amber</option>
+              <option value="noon">High Noon</option>
+              <option value="sunrise">Dawn Horizon</option>
+              <option value="night">Starlit Night</option>
+            </select>
+            <button class="btn btn-primary gold-glow" id="btn-generate-recon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+              Synthesize Reconstruction
+            </button>
+            <button class="btn btn-secondary" id="btn-view-recon-sources">
+              View Excavation Papers
+            </button>
+          </div>
+        </div>
+
+        <div class="recon-progress-hud">
+          <span class="recon-status-text" id="recon-generation-status">Neural Archeo-Model Ready • 3D Spatial Geometry Loaded</span>
+          <div class="recon-progress-track">
+            <div class="recon-progress-fill" id="recon-progress-fill"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Historical Evidence & Excavation Sources -->
+      <div class="recon-evidence-panel">
+        <div class="evidence-panel-header">
+          <h2 class="evidence-title">Excavation Evidence & Primary Archaeological Concordance</h2>
+          <p class="evidence-sub" id="recon-overview-desc">Data and records collected from the Archaeological Survey of India (ASI) and classical traveler logs.</p>
+        </div>
+
+        <div class="evidence-cards-grid">
+          <div class="evidence-card">
+            <span class="evidence-source-tag">Archaeological Survey of India</span>
+            <h3 class="evidence-card-title">Stratigraphical Excavation Record</h3>
+            <p class="evidence-card-desc">Material artifacts, carbon-dated mortar, stone joinery, and structural alignment verified through scientific site digs.</p>
+          </div>
+          <div class="evidence-card">
+            <span class="evidence-source-tag">Epigraphical Evidence</span>
+            <h3 class="evidence-card-title">Inscriptions on Stone & Copper</h3>
+            <p class="evidence-card-desc">Contemporary epigraphs in Brahmi, Grantha, Devanagari, and Tamil providing names of architects, patrons, and consecration years.</p>
+          </div>
+          <div class="evidence-card">
+            <span class="evidence-source-tag">Paleo-Hydrology</span>
+            <h3 class="evidence-card-title">Ancient River Channel Mapping</h3>
+            <p class="evidence-card-desc">Sedimentological core drilling determining ancient river courses, moats, and water reservoir capacities.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Divider -->
+    <div class="slide-section-divider">
+      <span class="divider-line"></span>
+      <span class="divider-glyph">❖</span>
+      <span class="divider-line"></span>
+    </div>
+
+    <!-- =======================================================
+         SECTION 7: HISTORICAL PAPERS, EDICTS & ARCHIVE SLIDE
+         ======================================================= -->
+    <section id="section-archive" class="page-slide screen-archive">
+      <div class="timeline-header-bar">
+        <div>
+          <span class="eyebrow-tag">AUTHENTIC HISTORICAL CORPUS</span>
+          <h1 class="screen-title">Indian Historical Papers & Epigraphs</h1>
+          <p class="screen-subtitle">Primary source documentation, royal rock edicts, copper plate charters, foreign travelogues, and colonial declarations.</p>
+        </div>
+      </div>
+
+      <div id="archive-content" style="margin-top: 32px;">
+        <!-- Populated dynamically via app.js -->
+      </div>
+    </section>
+
+    <!-- Section Divider -->
+    <div class="slide-section-divider">
+      <span class="divider-line"></span>
+      <span class="divider-glyph">❖</span>
+      <span class="divider-line"></span>
+    </div>
+
+    <!-- =======================================================
+         SECTION 8: ABOUT & PROVENANCE SLIDE
+         ======================================================= -->
+    <section id="section-about" class="page-slide" style="padding: 60px 80px 100px 80px;">
+      <div class="about-hero-box">
+        <div class="about-eyebrow">SCHOLARLY RIGOR & CITATION PROVENANCE</div>
+        <h2 class="about-title">About Eventurion</h2>
+        <p class="about-lead">
+          Eventurion is a modern, single-page interactive historical exploration atlas and digital research institute dedicated to 5,000 years of recorded Indian history.
+        </p>
+        
+        <div class="about-grid">
+          <div class="about-card">
+            <div class="about-card-icon">📜</div>
+            <h3 class="about-card-title">Epigraphical Authentication</h3>
+            <p class="about-card-text">Every dynasty, date, and territorial boundary is cross-referenced with genuine stone inscriptions, copper charters (Tamra-shasana), and numismatic evidence.</p>
+          </div>
+          <div class="about-card">
+            <div class="about-card-icon">🏛️</div>
+            <h3 class="about-card-title">ASI Archaeological Fieldwork</h3>
+            <p class="about-card-text">Excavation monographs from the Archaeological Survey of India (ASI) at Kumhrar, Dholavira, Lothal, Hampi, and Nalanda form the foundation of our 3D reconstructions.</p>
+          </div>
+          <div class="about-card">
+            <div class="about-card-icon">🗺️</div>
+            <h3 class="about-card-title">Precision Spatial Cartography</h3>
+            <p class="about-card-text">Ancient highways (Uttarapatha, Dakshinapatha) and Indian Ocean maritime spice routes mapped alongside paleo-channels of the Saraswati and Ganga.</p>
+          </div>
+        </div>
+
+        <div class="about-footer-bar">
+          <span>Eventurion Digital Museum © 2026 • Curated from Primary Epigraphical & Archaeological Sources</span>
+          <button class="btn btn-sm btn-outline" onclick="window.appRouter.scrollToSection('section-home')">
+            Return to Top ↑
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         PRIMARY SOURCES INSPECTION MODAL
+         ======================================================= -->
+    <div class="app-modal" id="sources-inspection-modal">
+      <div class="modal-dialog">
+        <button class="modal-close-btn" onclick="document.getElementById('sources-inspection-modal').classList.remove('show')">✕</button>
+        <h2 class="inspector-title" style="margin-bottom: 8px;">Ancient Epigraphs & Manuscript Archive</h2>
+        <p class="inspector-desc" style="margin-bottom: 24px;">Examine direct translations of royal inscriptions, copper plate grants, and classical records.</p>
+
+        <div class="sources-card-grid" style="grid-template-columns: 1fr; gap: 16px;">
+          <div class="source-card">
+            <div class="source-card-header">
+              <span class="source-type">Brahmi Stone Epigraph</span>
+              <span class="source-date">c. 257 BCE</span>
+            </div>
+            <h3 class="source-title">Major Rock Edict XIII (Dhauli / Kalsi)</h3>
+            <blockquote class="source-quote">"Beloved-of-the-Gods, King Priyadarsi, conquered the Kalingas eight years after his coronation. One hundred and fifty thousand were deported, one hundred thousand were killed... Even a hundredth or a thousandth part of those who were slain would now be considered very grievous by Beloved-of-the-Gods."</blockquote>
+            <p class="source-desc">Carved onto cliffs across India, Pakistan, and Afghanistan, recording the earliest official state apology and renunciation of war in world history.</p>
+          </div>
+
+          <div class="source-card">
+            <div class="source-card-header">
+              <span class="source-type">Classical Sanskrit Prashasti</span>
+              <span class="source-date">c. 370 CE</span>
+            </div>
+            <h3 class="source-title">Allahabad Pillar Inscription of Samudragupta</h3>
+            <blockquote class="source-quote">"Whose mortal body was full of charm through hundred wounds inflicted by battle-axes, arrows, lances, pikes, swords, and javelins..."</blockquote>
+            <p class="source-desc">Composed by Harishena in Champu Kavya, detailing the unification of the subcontinent under the Gupta Empire.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RECONSTRUCTION SOURCES MODAL -->
+    <div class="app-modal" id="recon-sources-modal">
+      <div class="modal-dialog">
+        <button class="modal-close-btn" id="close-recon-sources">✕</button>
+        <div id="recon-modal-sources-content">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/background-shader.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/timeline.js"></script>
+  <script src="js/reconstruction.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
